@@ -15,12 +15,15 @@ def download_file(url, filename, extension):
         response.raise_for_status()  # Raise an error for bad status codes
         total_size = int(response.headers.get('content-length', 0))
 
-        with tqdm(total=total_size, unit="B", unit_scale=True) as progress_bar:
-            with open(full_filename.strip(), "wb") as file:
-                for data in response.iter_content(1024):
-                    progress_bar.update(len(data))
-                    file.write(data)
-        
+        # Correct usage of tqdm
+        progress_bar = tqdm(total=total_size, unit="B", unit_scale=True, desc=full_filename)
+
+        with open(full_filename.strip(), "wb") as file:
+            for data in response.iter_content(1024):
+                progress_bar.update(len(data))
+                file.write(data)
+
+        progress_bar.close()  # Close the progress bar when done
         print("Download completed successfully!")
 
     except requests.exceptions.RequestException as e:

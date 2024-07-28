@@ -2,9 +2,9 @@ import typer
 from typing_extensions import Annotated
 from rich.console import Console
 from rich.tree import Tree
-from api.libgen_search import LibgenSearch
-from utils import download_file, print_table
-import constants
+from libgen_cli.api.libgen_search import LibgenSearch
+from .utils import download_file, print_table
+from . import constants
 
 api = LibgenSearch()
 console = Console()
